@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Mi Tienda en Línea</title>
+  <style>
+    body { font-family: Arial, sans-serif; background: #f2f2f2; margin: 0; padding: 20px; }
+    h1, h2 { text-align: center; }
+    .contenedor-productos { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; }
+    .producto {
+      background: white;
+      padding: 20px;
+      width: 200px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px #ccc;
+      text-align: center;
+    }
+    .producto img { width: 100%; border-radius: 10px; }
+    .producto button {
+      background: green;
+      color: white;
+      border: none;
+      padding: 10px;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+    .producto button:hover { background: darkgreen; }
+    #carrito { background: white; padding: 20px; margin-top: 30px; border-radius: 10px; box-shadow: 0 0 10px #ccc; }
+    #carrito ul { list-style: none; padding: 0; }
+    #carrito li { padding: 5px 0; border-bottom: 1px solid #ddd; }
+    #total { font-weight: bold; margin-top: 10px; }
+    #pagar {
+      background: blue;
+      color: white;
+      border: none;
+      padding: 15px;
+      border-radius: 5px;
+      cursor: pointer;
+      display: block;
+      margin: 20px auto 0;
+    }
+    #pagar:hover { background: darkblue; }
+  </style>
+</head>
+<body>
+  <h1>Mi Tienda en Línea</h1>
+  <div class="contenedor-productos">
+    <div class="producto">
+      <img src="https://images.unsplash.com/photo-1585386959984-a4155223fcd8?fit=crop&w=400&q=80" alt="Camiseta Roja">
+      <h2>Camiseta Roja</h2>
+      <p>Precio: $15</p>
+      <button onclick="agregarCarrito('Camiseta Roja', 15)">Agregar al carrito</button>
+    </div>
+    <div class="producto">
+      <img src="https://images.unsplash.com/photo-1526170375885-4d8ecf77b99f?fit=crop&w=400&q=80" alt="Gorra Negra">
+      <h2>Gorra Negra</h2>
+      <p>Precio: $10</p>
+      <button onclick="agregarCarrito('Gorra Negra', 10)">Agregar al carrito</button>
+    </div>
+    <div class="producto">
+      <img src="https://images.unsplash.com/photo-1602810313954-e2c2c6e685c1?fit=crop&w=400&q=80" alt="Pantalón Azul">
+      <h2>Pantalón Azul</h2>
+      <p>Precio: $20</p>
+      <button onclick="agregarCarrito('Pantalón Azul', 20)">Agregar al carrito</button>
+    </div>
+  </div>
+
+  <div id="carrito">
+    <h2>🛍️ Carrito</h2>
+    <ul id="lista-carrito"></ul>
+    <p id="total">Total: $0</p>
+    <button id="pagar" onclick="procesarPago()">Pagar con PayPal</button>
+  </div>
+
+  <script>
+    let total = 0;
+
+    function agregarCarrito(nombre, precio) {
+      const item = document.createElement("li");
+      item.textContent = `${nombre} - $${precio}`;
+      document.getElementById("lista-carrito").appendChild(item);
+      total += precio;
+      document.getElementById("total").textContent = `Total: $${total}`;
+    }
+
+    function procesarPago() {
+      if (total <= 0) {
+        alert("El carrito está vacío. Agrega productos antes de pagar.");
+        return;
+      }
+
+      const nombre = prompt("Ingresa tu nombre de usuario PayPal (sin espacios ni caracteres especiales):");
+
+      if (!nombre || !/^[a-zA-Z0-9]+$/.test(nombre)) {
+        alert("Nombre inválido. Solo letras y números sin espacios.");
+        return;
+      }
+
+      alert(`Redirigiendo a PayPal para pagar $${total}...`);
+      const enlace = `https://www.paypal.me/${nombre}/${total}`;
+      window.location.href = enlace;
+    }
+  </script>
+</body>
+</html>
